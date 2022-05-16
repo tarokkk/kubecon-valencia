@@ -1,0 +1,14 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterFlow
+metadata:
+  annotations:
+  name: all-log
+  namespace: default
+spec:
+  filters:
+  - record_transformer:
+      remove_keys: $.kubernetes.annotations
+  globalOutputRefs:
+  - s3
+  match:
+  - select: {}

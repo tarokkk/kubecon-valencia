@@ -1,0 +1,23 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Output
+metadata:
+  name: access-log-os
+  namespace: default
+spec:
+  opensearch:
+    buffer:
+      timekey: 10s
+      timekey_use_utc: true
+      timekey_wait: 3s
+    host: opensearch-cluster-master.default.svc.cluster.local
+    logstash_format: true
+    logstash_prefix: ${tag}
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: one-eye-opensearch-user
+    port: 9200
+    scheme: https
+    ssl_verify: false
+    user: user

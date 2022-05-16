@@ -1,0 +1,28 @@
+# Copyright © 2020 Banzai Cloud
+#
+# This is a recommended default configuration for the logging system. 
+# For further configuration options please check out the reference docs:
+#   https://banzaicloud.com/docs/one-eye/logging-operator/crds/#loggings
+#
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Logging
+metadata:
+  name: one-eye
+spec:
+  enableRecreateWorkloadOnImmutableFieldChange: true
+  controlNamespace: default
+  fluentbit:
+    metrics:
+      serviceMonitor: true
+    inputTail:
+      storage.type: filesystem
+    bufferStorageVolume:
+      hostPath:
+        path: ""
+    positiondb:
+      hostPath:
+        path: ""
+  fluentd:
+    metrics:
+      serviceMonitor: true
+    disablePvc: true

@@ -1,0 +1,25 @@
+# Copyright © 2020 Banzai Cloud
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: ClusterOutput
+metadata:
+  name: s3
+  namespace: default
+spec:
+  # Reference docs for the output configuration:
+  #   https://banzaicloud.com/docs/one-eye/logging-operator/plugins/outputs/s3
+  s3:
+    s3_bucket: mcom-logs
+    s3_region: eu-central-1
+    aws_key_id:
+      valueFrom:
+        secretKeyRef:
+          name: s3-0e35
+          key: awsAccessKeyId
+    aws_sec_key:
+      valueFrom:
+        secretKeyRef:
+          name: s3-0e35
+          key: awsSecretAccessKey
+    oneeye_format: true
+    clustername: kubecon-logging-demo
+  

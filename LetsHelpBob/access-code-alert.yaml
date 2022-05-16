@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: nginx-http-error.rules
+  labels:
+    app: kube-prometheus-stack
+    release: one-eye-prometheus-operator
+spec:
+  groups:
+  - name: nginx.rules
+    rules:
+    - alert: nginxErrorResponse
+      annotations:
+        message: '{{ $value }}% of requests for {{ $labels.exported_pod }} is failed.'
+      expr: |-
+        label_replace(
+        (label_replace(
+          (
+            sum by(exported_pod, exported_namespace) (rate(http_response_total{code=~"[4|5].*"}[1m]) * 60) /
+            sum by(exported_pod, exported_namespace) (rate(http_response_total[1m]) * 60) * 100
+          ) , "pod", "$1", "exported_pod", "(.*)")
+        ), "namespace", "$1", "exported_namespace", "(.*)")
+        > 35
+      for: 1m
+      labels:
+        severity: critical
