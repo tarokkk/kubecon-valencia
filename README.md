@@ -28,11 +28,11 @@ helm install bar LetsHelpBob/log-generator --set extraLabels.rbac/default_bob=al
 Tail the flow
 
 ```bash
-./k8stail flow default/geoip-flow --token $ALICE_TOKEN 2>/dev/null | jq 'if .kubernetes != null then .kubernetes.pod_name else .error end'
+./k8stail flow default/geoip-flow --token $ALICE_TOKEN 2>/dev/null | jq -r 'if .kubernetes != null then "[ALICE]: \(.kubernetes.pod_name)" else "[ALICE]: \(.error)" end'
 ```
 
 ```bash
-./k8stail flow default/geoip-flow --token $BOB_TOKEN 2>/dev/null | jq 'if .kubernetes != null then .kubernetes.pod_name else .error end'
+./k8stail flow default/geoip-flow --token $BOB_TOKEN 2>/dev/null | jq -r 'if .kubernetes != null then "[BOB]: \(.kubernetes.pod_name)" else "[BOB]: \(.error)" end'
 ```
 
 ```
