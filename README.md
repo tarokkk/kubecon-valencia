@@ -22,7 +22,7 @@ helm upgrade foo LetsHelpBob/log-generator --set extraLabels.rbac/default_alice=
 ```
 
 ```bash
-helm upgrade bar LetsHelpBob/log-generator --set extraLabels.rbac/default_bob=allow --set extraLabels.rbac/default_alice=allow
+helm install bar LetsHelpBob/log-generator --set extraLabels.rbac/default_bob=allow --set extraLabels.rbac/default_alice=allow
 ```
 
 Tail the flow
